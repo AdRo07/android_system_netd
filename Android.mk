@@ -22,7 +22,7 @@ LOCAL_SRC_FILES:=                                      \
                   TetherController.cpp                 \
                   oem_iptables_hook.cpp                \
                   main.cpp                             \
-
+                  RouteController.cpp
 
 LOCAL_MODULE:= netd
 
@@ -64,6 +64,13 @@ endif
 
 ifeq ($(WIFI_DRIVER_HAS_LGE_SOFTAP),true)
   LOCAL_CFLAGS += -DLGE_SOFTAP
+endif
+
+ifeq ($(BOARD_HAS_QCOM_WLAN_SDK), true)
+  LOCAL_SRC_FILES += QualcommSoftapCmd.cpp
+  LOCAL_CFLAGS += -DQCOM_WLAN
+  LOCAL_SHARED_LIBRARIES += libqsap_sdk
+  LOCAL_C_INCLUDES += $(LOCAL_PATH)/../qcom/softap/sdk/
 endif
 
 include $(BUILD_EXECUTABLE)
